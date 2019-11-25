@@ -1,24 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import api from '~/services/api';
 
-import { Container, StudentsTable, Content } from './styles';
+import { Container, StudentsTable, Content, Actions } from './styles';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [paramStudent, setStudent] = useState('');
 
   useEffect(() => {
     async function loadStudents() {
-      const response = await api.get('students');
+      const response = await api.get(`students/${paramStudent}`);
 
       setStudents(response.data);
     }
 
     loadStudents();
-  }, []);
+  }, [paramStudent]);
+
+  function handleSearchStudent(e) {
+    setStudent(e.target.value);
+  }
 
   return (
     <Container>
+      <Actions>
+        <p>Gerenciando alunos</p>
+        <div>
+          <Link to="students/create">
+            <button type="button">Cadastrar</button>
+          </Link>
+          <input
+            name="search"
+            type="text"
+            placeholder="Buscar aluno"
+            onChange={handleSearchStudent}
+          />
+        </div>
+      </Actions>
       <Content>
         <StudentsTable>
           <thead>
@@ -37,12 +57,13 @@ export default function Students() {
                 <td>{student.email}</td>
                 <td id="idadeTd">{student.age}</td>
                 <td id="buttons">
-                  <button type="button" id="edit">
+                  <Link id="edit" to="/students/edit">
                     Editar
-                  </button>
-                  <button type="button" id="delete">
-                    Pagar
-                  </button>
+                  </Link>
+
+                  <Link id="delete" to="/students">
+                    Apagar
+                  </Link>
                 </td>
               </tr>
             </tbody>

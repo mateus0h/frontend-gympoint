@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 `;
 
 export const Content = styled.div`
@@ -11,7 +13,8 @@ export const Content = styled.div`
   margin-top: 30px;
   border-radius: 4px;
   padding: 30px;
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
 `;
 
 export const StudentsTable = styled.table`
@@ -56,32 +59,66 @@ export const StudentsTable = styled.table`
     font-weight: bold;
   }
 
-  button {
+  a {
     background: none;
     border: 0;
     padding: 6px;
   }
 
-  button#edit {
+  a#edit {
     color: #4d85ee;
   }
 
-  button#delete {
+  a#delete {
     color: #de3b3b;
   }
 `;
 
-export const Total = styled.div`
+export const Actions = styled.div`
   display: flex;
-  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 30px;
+  max-width: 1200px;
+  width: 100%;
 
-  span {
-    color: #999;
+  p {
+    font-size: 16pt;
     font-weight: bold;
+    color: #444444;
   }
 
-  strong {
-    font-size: 28px;
-    margin-left: 5px;
+  button {
+    height: 35px;
+    background: #ee4d64;
+    font-weight: bold;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    font-size: 14px;
+
+    transition: backdround 0.2s;
+    width: 142px;
+
+    &:hover {
+      background: ${darken(0.02, '#ee4c63')};
+    }
+  }
+
+  input {
+    background: #ffffff;
+    border-color: black;
+    border: 0px;
+    border-radius: 4px;
+    height: 36px;
+    padding: 0 15px;
+    color: #444444;
+    border: 0.8px solid #dddddd;
+
+    margin-left: 15px;
+    text-align: center;
+
+    &::placeholder {
+      color: #999999;
+    }
   }
 `;
