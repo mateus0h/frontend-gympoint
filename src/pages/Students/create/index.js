@@ -1,38 +1,87 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 
-import { Container, Content } from './styles';
+import * as Yup from 'yup';
 
-export default function create() {
+import { createStudent } from '~/store/modules/student/actions';
+
+import {
+  Container,
+  Content,
+  Label,
+  InputControl,
+  ActionsHeader,
+} from './styles';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('O Nome é obrigatório'),
+  email: Yup.string()
+    .email('Insira um e-mail válido')
+    .required('O email é obrigatório'),
+  age: Yup.string().required('A idade é obrigatória'),
+  weight: Yup.string().required('O peso é obrigatório'),
+  height: Yup.string().required('A altura é obrigatória'),
+});
+
+export default function Create() {
+  const dispatch = useDispatch();
+
+  function handleSubmit({ name, email, age, weight, height }) {
+    dispatch(createStudent(name, email, age, weight, height));
+  }
   return (
     <Container>
-      <Content>
-        <Form>
-          <div id="double">
-            <strong>NOME COMPLETO</strong>
-            <Input name="name" type="text" placeholder="John Doe" />
-
-            <strong>ENDEREÇO DE E-MAIL</strong>
-            <Input name="email" type="email" placeholder="exemplo@gmail.com" />
+      <Form schema={schema} onSubmit={handleSubmit}>
+        <ActionsHeader>
+          <p>Cadastro de alunos</p>
+          <div>
+            <Link to="/students">
+              <button id="back" type="button">
+                Voltar
+              </button>
+            </Link>
+            <button id="save" type="submit">
+              Salvar
+            </button>
           </div>
-          <div id="triple">
-            <strong>
-              IDADE
-              <Input name="age" type="text" />
-            </strong>
+        </ActionsHeader>
+        <Content>
+          <div className="inputRow">
+            <InputControl>
+              <Label>NOME COMPLETO</Label>
+              <Input name="name" type="text" placeholder="John Doe" />
+            </InputControl>
 
-            <strong>
-              PESO (em kg)
-              <Input name="weight" type="text" />
-            </strong>
-
-            <strong>
-              ALTURA
-              <Input name="height" type="text" />
-            </strong>
+            <InputControl>
+              <Label>ENDEREÇO DE E-MAIL</Label>
+              <Input
+                name="email"
+                type="email"
+                placeholder="exemplo@gmail.com"
+              />
+            </InputControl>
           </div>
-        </Form>
-      </Content>
+
+          <div className="inputColumn">
+            <InputControl>
+              <Label>IDADE</Label>
+              <Input name="age" type="number" />
+            </InputControl>
+
+            <InputControl>
+              <Label>PESO (em kg)</Label>
+              <Input name="weight" type="number" />
+            </InputControl>
+
+            <InputControl>
+              <Label>ALTURA (em cm)</Label>
+              <Input name="height" type="number" />
+            </InputControl>
+          </div>
+        </Content>
+      </Form>
     </Container>
   );
 }

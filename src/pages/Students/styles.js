@@ -29,6 +29,7 @@ export const StudentsTable = styled.table`
   tbody td {
     padding: 12px;
     border-bottom: 1px solid #eee;
+    color: #666666;
   }
 
   tbody td#buttons {
@@ -69,8 +70,10 @@ export const StudentsTable = styled.table`
     color: #4d85ee;
   }
 
-  a#delete {
+  button#delete {
     color: #de3b3b;
+    background: none;
+    border: none;
   }
 `;
 

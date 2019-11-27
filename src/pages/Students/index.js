@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
 import api from '~/services/api';
 
 import { Container, StudentsTable, Content, Actions } from './styles';
 
+import { deleteStudent } from '~/store/modules/student/actions';
+
 export default function Students() {
   const [students, setStudents] = useState([]);
-  const [paramStudent, setStudent] = useState('');
+  const [paramStudent, setParamStudent] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadStudents() {
@@ -19,8 +25,16 @@ export default function Students() {
     loadStudents();
   }, [paramStudent]);
 
-  function handleSearchStudent(e) {
-    setStudent(e.target.value);
+  function handleSearch(e) {
+    setParamStudent(e.target.value);
+  }
+
+  function handleDelete(idStudent) {
+    dispatch(deleteStudent(idStudent));
+
+    const newList = students.filter(item => item.id !== idStudent);
+
+    setStudents(newList);
   }
 
   return (
@@ -35,7 +49,7 @@ export default function Students() {
             name="search"
             type="text"
             placeholder="Buscar aluno"
-            onChange={handleSearchStudent}
+            onChange={handleSearch}
           />
         </div>
       </Actions>
@@ -57,13 +71,25 @@ export default function Students() {
                 <td>{student.email}</td>
                 <td id="idadeTd">{student.age}</td>
                 <td id="buttons">
-                  <Link id="edit" to="/students/edit">
+                  <Link
+                    id="edit"
+                    to={{
+                      pathname: `/students/edit`,
+                      state: {
+                        student,
+                      },
+                    }}
+                  >
                     Editar
                   </Link>
 
-                  <Link id="delete" to="/students">
+                  <button
+                    type="button"
+                    id="delete"
+                    onClick={() => handleDelete(student.id)}
+                  >
                     Apagar
-                  </Link>
+                  </button>
                 </td>
               </tr>
             </tbody>

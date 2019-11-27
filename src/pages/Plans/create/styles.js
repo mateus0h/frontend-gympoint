@@ -46,8 +46,11 @@ export const Content = styled.div`
     color: #454444;
 
     &::placeholder {
-      color: #999999;
+      color: #dddddd;
     }
+  }
+  input:read-only {
+    background-color: #f5f5f5;
   }
 
   div.inputRow {
