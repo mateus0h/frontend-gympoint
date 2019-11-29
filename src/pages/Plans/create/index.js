@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-// import { createStudent } from '~/store/modules/student/actions';
+import { createPlan } from '~/store/modules/plan/actions';
 import { formatPrice } from '~/util/format';
 
 import {
@@ -21,9 +23,9 @@ const schema = Yup.object().shape({
 });
 
 export default function Create() {
-  const [plan, setPlan] = useState(0);
+  const [plan, setPlan] = useState([]);
 
-  function handleSubmit({ title, duration, price }) {}
+  const dispatch = useDispatch();
 
   const totalPrice = useMemo(() => {
     let total = 0.0;
@@ -34,6 +36,10 @@ export default function Create() {
 
     return formatPrice(total);
   }, [plan.duration, plan.price]);
+
+  function handleSubmit({ title, duration, price }) {
+    dispatch(createPlan(title, duration, price));
+  }
 
   return (
     <Container>

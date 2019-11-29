@@ -10,7 +10,9 @@ import StudentsEdit from '~/pages/Students/edit';
 import StudentsCreate from '~/pages/Students/create';
 import Plans from '~/pages/Plans';
 import PlansCreate from '~/pages/Plans/create';
+import PlansEdit from '~/pages/Plans/edit';
 import Enrollments from '~/pages/Enrollments';
+import EnrollmentsCreate from '~/pages/Enrollments/Create';
 import HelpOrders from '~/pages/HelpOrders';
 
 export default function Routes() {
@@ -23,9 +25,16 @@ export default function Routes() {
 
       <Route exact path="/plans" component={Plans} isPrivate />
       <Route path="/plans/create" component={PlansCreate} isPrivate />
+      <Route path="/plans/edit" component={PlansEdit} isPrivate />
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
-      <Route path="/enrollments" component={Enrollments} isPrivate />
+
+      <Route exact path="/enrollments" component={Enrollments} isPrivate />
+      <Route
+        path="/enrollments/create"
+        component={EnrollmentsCreate}
+        isPrivate
+      />
 
       <Route axact path="/" component={SignIn} />
     </Switch>

@@ -19,6 +19,7 @@ export function* setStudent({ payload }) {
     });
 
     history.push('/students');
+    toast.success('Aluno cadastrado com sucesso!');
   } catch (err) {
     toast.error(err.response.data.error);
   }

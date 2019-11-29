@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { deletePlan } from '~/store/modules/plan/actions';
+
 import api from '~/services/api';
 
 import { Container, Content, Actions, PlansTable } from './styles';
@@ -8,6 +12,8 @@ import { formatPrice } from '~/util/format';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadPlans() {
@@ -33,6 +39,14 @@ export default function Plans() {
 
     loadPlans();
   }, []);
+
+  function handleDelete(idPlan) {
+    dispatch(deletePlan(idPlan));
+
+    const newList = plans.filter(item => item.id !== idPlan);
+
+    setPlans(newList);
+  }
 
   return (
     <Container>
@@ -65,7 +79,7 @@ export default function Plans() {
                   <Link
                     id="edit"
                     to={{
-                      pathname: `/students/edit`,
+                      pathname: `/plans/edit`,
                       state: {
                         plan,
                       },
@@ -77,7 +91,7 @@ export default function Plans() {
                   <button
                     type="button"
                     id="delete"
-                    // onClick={() => handleDelete(student.id)}
+                    onClick={() => handleDelete(plan.id)}
                   >
                     Apagar
                   </button>

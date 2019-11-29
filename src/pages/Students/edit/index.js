@@ -24,7 +24,7 @@ const schema = Yup.object().shape({
   height: Yup.string().required('A altura é obrigatória'),
 });
 
-export default function Create({ history }) {
+export default function Edit({ history }) {
   const dispatch = useDispatch();
 
   const { student } = history.location.state;
