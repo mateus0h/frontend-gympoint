@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+
+import { deleteEnrollment } from '~/store/modules/enrollment/actions';
 
 import api from '~/services/api';
 
@@ -9,6 +13,7 @@ import { Container, Content, Actions, EnrollmentTable } from './styles';
 
 export default function Enrollments() {
   const [enrollments, setEnrollments] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadEnrollments() {
@@ -27,10 +32,17 @@ export default function Enrollments() {
           { locale: pt }
         );
 
+        const start_date = parseISO(enrollment.start_date);
+        const plan_id = enrollment.plan.id;
+        const student_id = enrollment.student.id;
+
         return {
+          ...enrollment,
+          plan_id,
+          student_id,
           startDateFormatted,
           endDateFormatted,
-          ...enrollment,
+          start_date,
         };
       });
 
@@ -39,6 +51,13 @@ export default function Enrollments() {
 
     loadEnrollments();
   }, []);
+
+  function handleDelete(idEnrollment) {
+    dispatch(deleteEnrollment(idEnrollment));
+
+    const newList = enrollments.filter(item => item.id !== idEnrollment);
+    setEnrollments(newList);
+  }
 
   return (
     <Container>
@@ -77,10 +96,10 @@ export default function Enrollments() {
                   <Link
                     id="edit"
                     to={{
-                      pathname: `/plans/edit`,
-                      // state: {
-                      //   plan,
-                      // },
+                      pathname: `/enrollments/edit`,
+                      state: {
+                        enrollment,
+                      },
                     }}
                   >
                     Editar
@@ -89,7 +108,7 @@ export default function Enrollments() {
                   <button
                     type="button"
                     id="delete"
-                    // onClick={() => handleDelete(plan.id)}
+                    onClick={() => handleDelete(enrollment.id)}
                   >
                     Apagar
                   </button>

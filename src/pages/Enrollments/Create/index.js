@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Input, useField } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
+
+import * as Yup from 'yup';
+
+import { useDispatch } from 'react-redux';
 
 import { addMonths, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
-
-import AsyncSelect from 'react-select/async';
-import Select from 'react-select';
-
-import ReactDatePicker from 'react-datepicker';
-
-import { formatPrice } from '~/util/format';
 
 import api from '~/services/api';
+import { formatPrice } from '~/util/format';
+
+import ReactSelect from '../ReactSelect';
+import DatePickerInput from '../DatePickerInput';
+import ReactAsyncSelect from '../ReactAsyncSelect';
+
+import { createEnrollment } from '~/store/modules/enrollment/actions';
 
 import {
   Container,
@@ -23,51 +25,38 @@ import {
   ActionsHeader,
 } from './styles';
 
+const schema = Yup.object().shape({
+  student_id: Yup.string().required('O Aluno é obrigatorio'),
+  plan_id: Yup.string().required('O plano é obrigatoria'),
+  start_date: Yup.date().required('A data inicial é obrigatória'),
+});
+
 export default function Create() {
-  const ref = useRef(null);
   const [plans, setPlans] = useState();
-
-  const { fieldName, registerField, defaultValue, error } = useField(
-    'start_date'
-  );
-
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
   const [planSelec, setPlanSelec] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadlans() {
       const response = await api.get('plans');
-
-      const data = response.data.map(plan => {
-        const value = plan.id;
-        const label = plan.title;
-
-        return { value, label, ...plan };
-      });
-
-      setPlans(data);
+      setPlans(response.data);
     }
 
-    registerField({
-      name: fieldName,
-      ref: ref.current,
-      path: 'props.selected',
-      clearValue: pickerRef => {
-        pickerRef.clear();
-      },
-    });
-
     loadlans();
-  }, [setPlans, ref.current, fieldName]); // eslint-disable-line
+  }, [setPlans]);
 
   const endDate = useMemo(() => {
-    if (planSelec !== '' && startDate !== '') {
+    if (planSelec !== '') {
+      setTotalPrice(formatPrice(planSelec.duration * planSelec.price));
+    }
+
+    if (startDate !== null && planSelec !== '') {
       const endDateFormatted = addMonths(startDate, planSelec.duration);
 
-      setTotalPrice(formatPrice(planSelec.duration * planSelec.price));
-
-      return format(endDateFormatted, "dd'/'MM'/'Y", { locale: pt });
+      return format(endDateFormatted, "dd'/'MM'/'Y");
     }
     return '';
   }, [planSelec, startDate]);
@@ -86,16 +75,16 @@ export default function Create() {
     new Promise(resolve => {
       setTimeout(() => {
         resolve(filterStudents(inputValue));
-      }, 1000);
+      }, 100);
     });
 
-  function handleSubmit(data) {
-    console.log(data);
+  function handleSubmit({ student_id, plan_id, start_date }) {
+    dispatch(createEnrollment(student_id, plan_id, start_date));
   }
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} schema={schema}>
         <ActionsHeader>
           <p>Cadastro de matrícula</p>
           <div>
@@ -114,13 +103,7 @@ export default function Create() {
             <InputControl>
               <Label>ALUNO</Label>
               <div className="divSelectColumn">
-                <AsyncSelect
-                  cacheOptions
-                  loadOptions={promiseOptions}
-                  defaultOptions
-                  getOptionValue={promiseOptions => promiseOptions.id}
-                  getOptionLabel={promiseOptions => promiseOptions.name}
-                />
+                <ReactAsyncSelect name="student_id" options={promiseOptions} />
               </div>
             </InputControl>
           </div>
@@ -129,25 +112,22 @@ export default function Create() {
             <InputControl>
               <Label>PLANO</Label>
               <div className="divSelectRow">
-                <Select
+                <ReactSelect
                   className="basic-single"
                   classNamePrefix="select"
                   onChange={plan => setPlanSelec(plan)}
-                  name="color"
                   options={plans}
+                  name="plan_id"
                 />
               </div>
             </InputControl>
 
             <InputControl>
               <Label>DATA DE INÍCIO</Label>
-              <ReactDatePicker
-                name={fieldName}
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-                ref={ref}
+              <DatePickerInput
+                name="start_date"
+                onChangeDate={data => setStartDate(data)}
               />
-              {error && <span>{error}</span>}
             </InputControl>
 
             <InputControl>

@@ -24,7 +24,7 @@ export const Label = styled.label`
   margin-bottom: 10px;
 `;
 
-export const InputControl = styled.label`
+export const InputControl = styled.div`
   text-align: left;
   margin: 10px;
 `;
@@ -32,10 +32,6 @@ export const InputControl = styled.label`
 export const Content = styled.div`
   padding: 30px;
   background: #ffff;
-
-  */ input {
-    height: 10px;
-  }
 
   .divSelectColumn {
     margin-top: 8px;

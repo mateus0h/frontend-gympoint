@@ -13,6 +13,7 @@ import PlansCreate from '~/pages/Plans/create';
 import PlansEdit from '~/pages/Plans/edit';
 import Enrollments from '~/pages/Enrollments';
 import EnrollmentsCreate from '~/pages/Enrollments/Create';
+import EnrollmentsEdit from '~/pages/Enrollments/Edit';
 import HelpOrders from '~/pages/HelpOrders';
 
 export default function Routes() {
@@ -35,6 +36,8 @@ export default function Routes() {
         component={EnrollmentsCreate}
         isPrivate
       />
+
+      <Route path="/enrollments/edit" component={EnrollmentsEdit} isPrivate />
 
       <Route axact path="/" component={SignIn} />
     </Switch>
