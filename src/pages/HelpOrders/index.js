@@ -27,6 +27,16 @@ export default function HelpOrders() {
     });
   }
 
+  function removeHelpOrder(idHelpOrder) {
+    const newList = orders.filter(item => item.id !== idHelpOrder);
+
+    setOrders(newList);
+
+    setInfosModal({
+      isOpen: false,
+    });
+  }
+
   return (
     <Container>
       <Actions>
@@ -38,6 +48,7 @@ export default function HelpOrders() {
             isOpen={infosModal.isOpen}
             question={infosModal.question}
             idQuestion={infosModal.idQuestion}
+            listHelpOrder={removeHelpOrder}
           />
           <thead>
             <tr>

@@ -19,7 +19,6 @@ export default function Modal(props) {
   const [question, setQuestion] = useState('');
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     setQuestion(props.question);
     setIsOpen(props.isOpen);
@@ -28,13 +27,15 @@ export default function Modal(props) {
   function handleSubmit({ answer }) {
     const id = props.idQuestion;
 
+    props.listHelpOrder(id);
+
     dispatch(responseHelpOrder(answer, id));
-    setIsOpen(false);
   }
 
   function closeModal() {
     setIsOpen(false);
   }
+
   return (
     <>
       <ReactModal
