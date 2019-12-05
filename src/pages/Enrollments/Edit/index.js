@@ -81,7 +81,7 @@ export default function Edit({ history }) {
 
   const filterStudents = inputValue => {
     async function loadStudents() {
-      const response = await api.get(`students/${inputValue}`);
+      const response = await api.get(`students/?name=${inputValue}`);
 
       return response.data;
     }

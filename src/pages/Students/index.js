@@ -17,7 +17,7 @@ export default function Students() {
 
   useEffect(() => {
     async function loadStudents() {
-      const response = await api.get(`students/${paramStudent}`);
+      const response = await api.get(`students/?name=${paramStudent}`);
 
       setStudents(response.data);
     }
