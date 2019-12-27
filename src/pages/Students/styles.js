@@ -21,7 +21,8 @@ export const StudentsTable = styled.table`
   width: 100%;
 
   thead th {
-    color: #999;
+    color: #444444;
+    font-weight: bold;
     padding: 12px;
     text-align: left;
   }
@@ -97,10 +98,19 @@ export const Actions = styled.div`
     color: #fff;
     border: 0;
     border-radius: 4px;
-    font-size: 14px;
-
+    font-size: 13px;
     transition: backdround 0.2s;
     width: 142px;
+
+    /* align text button */
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+      margin: 0 10px 0 10px;
+    }
 
     &:hover {
       background: ${darken(0.02, '#ee4c63')};
@@ -120,8 +130,19 @@ export const Actions = styled.div`
     margin-left: 15px;
     text-align: center;
 
+    /* align text button */
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &::placeholder {
       color: #999999;
     }
+  }
+
+  #lupa {
+    float: left;
+    margin: 10px 0px 0px -180px;
   }
 `;

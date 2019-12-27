@@ -13,7 +13,7 @@ export const Content = styled.div`
   margin-top: 30px;
   border-radius: 4px;
   padding: 30px;
-  max-width: 800px;
+  max-width: 600px;
   width: 100%;
 `;
 
@@ -77,7 +77,7 @@ export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
-  max-width: 800px;
+  max-width: 600px;
   width: 100%;
 
   p {

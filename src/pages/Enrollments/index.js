@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { MdAdd, MdCheckCircle } from 'react-icons/md';
 
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -8,11 +9,13 @@ import pt from 'date-fns/locale/pt';
 import { deleteEnrollment } from '~/store/modules/enrollment/actions';
 
 import api from '~/services/api';
+import Loading from '~/components/Loading';
 
 import { Container, Content, Actions, EnrollmentTable } from './styles';
 
 export default function Enrollments() {
   const [enrollments, setEnrollments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,25 +50,34 @@ export default function Enrollments() {
       });
 
       setEnrollments(data);
+      setLoading(false);
     }
 
     loadEnrollments();
   }, []);
 
-  function handleDelete(idEnrollment) {
-    dispatch(deleteEnrollment(idEnrollment));
+  function handleDelete(idEnrollment, aluno) {
+    if (window.confirm(`Deseja apagar a matricula do aluno ${aluno} ?`)) {
+      dispatch(deleteEnrollment(idEnrollment));
 
-    const newList = enrollments.filter(item => item.id !== idEnrollment);
-    setEnrollments(newList);
+      const newList = enrollments.filter(item => item.id !== idEnrollment);
+
+      setEnrollments(newList);
+    }
   }
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Actions>
         <p>Gerenciado matrículas</p>
         <div>
           <Link to="/enrollments/create">
-            <button type="button">Cadastrar</button>
+            <button type="button">
+              <MdAdd size={20} color="#FFFF" />
+              <div>CADASTRAR</div>
+            </button>
           </Link>
         </div>
       </Actions>
@@ -90,7 +102,11 @@ export default function Enrollments() {
                 <td className="alignCenter">{enrollment.startDateFormatted}</td>
                 <td className="alignCenter">{enrollment.endDateFormatted}</td>
                 <td className="alignCenter">
-                  {enrollment.active ? 'True' : 'False'}
+                  {enrollment.active ? (
+                    <MdCheckCircle size={20} color="#42cb59" />
+                  ) : (
+                    <MdCheckCircle size={20} color="#dddddd" />
+                  )}
                 </td>
                 <td id="buttons">
                   <Link
@@ -108,7 +124,9 @@ export default function Enrollments() {
                   <button
                     type="button"
                     id="delete"
-                    onClick={() => handleDelete(enrollment.id)}
+                    onClick={() =>
+                      handleDelete(enrollment.id, enrollment.student.name)
+                    }
                   >
                     Apagar
                   </button>

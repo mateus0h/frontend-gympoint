@@ -40,6 +40,7 @@ export default function ReactSelect({
       {label && <label htmlFor={fieldName}>{label}</label>}
 
       <AsyncSelect
+        placeholder="Digite o nome do aluno"
         name={fieldName}
         cacheOptions
         aria-label={fieldName}

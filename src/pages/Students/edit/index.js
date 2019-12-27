@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import { updateStudent } from '~/store/modules/student/actions';
+import { MdCheck, MdChevronLeft } from 'react-icons/md';
 
+import { updateStudent } from '~/store/modules/student/actions';
 import {
   Container,
   Content,
@@ -41,11 +42,13 @@ export default function Edit({ history }) {
           <div>
             <Link to="/students">
               <button id="back" type="button">
-                Voltar
+                <MdChevronLeft size={25} color="#FFFF" />
+                <div>VOLTAR</div>
               </button>
             </Link>
             <button id="save" type="submit">
-              Salvar
+              <MdCheck size={18} color="#FFFF" />
+              <div>SALVAR</div>
             </button>
           </div>
         </ActionsHeader>

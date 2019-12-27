@@ -3,15 +3,18 @@ import { useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
+import { MdAdd, MdSearch } from 'react-icons/md';
 import api from '~/services/api';
 
 import { Container, StudentsTable, Content, Actions } from './styles';
 
 import { deleteStudent } from '~/store/modules/student/actions';
+import Loading from '~/components/Loading';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
   const [paramStudent, setParamStudent] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -20,37 +23,49 @@ export default function Students() {
       const response = await api.get(`students/?name=${paramStudent}`);
 
       setStudents(response.data);
+      setLoading(false);
     }
 
     loadStudents();
   }, [paramStudent]);
 
   function handleSearch(e) {
-    setParamStudent(e.target.value);
+    const name = e.target.value;
+
+    if (name.length >= 3) {
+      setParamStudent(name);
+    }
   }
 
-  function handleDelete(idStudent) {
-    dispatch(deleteStudent(idStudent));
-
-    const newList = students.filter(item => item.id !== idStudent);
-
-    setStudents(newList);
+  function handleDelete(idStudent, name) {
+    if (window.confirm(`Deseja apagar o aluno ${name} ?`)) {
+      dispatch(deleteStudent(idStudent));
+      const newList = students.filter(item => item.id !== idStudent);
+      setStudents(newList);
+    }
   }
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Actions>
         <p>Gerenciando alunos</p>
         <div>
           <Link to="students/create">
-            <button type="button">Cadastrar</button>
+            <button type="button">
+              <MdAdd size={18} color="#FFFF" />
+              <div>CADASTRAR</div>
+            </button>
           </Link>
+
           <input
             name="search"
             type="text"
-            placeholder="Buscar aluno"
+            placeholder=" Buscar aluno"
             onChange={handleSearch}
           />
+          <MdSearch id="lupa" size={20} color="#999999" />
         </div>
       </Actions>
       <Content>
@@ -86,7 +101,7 @@ export default function Students() {
                   <button
                     type="button"
                     id="delete"
-                    onClick={() => handleDelete(student.id)}
+                    onClick={() => handleDelete(student.id, student.name)}
                   >
                     Apagar
                   </button>

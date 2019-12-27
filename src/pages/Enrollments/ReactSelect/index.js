@@ -50,6 +50,7 @@ export default function ReactSelect({
       {label && <label htmlFor={fieldName}>{label}</label>}
 
       <Select
+        placeholder="Selecione o Plano"
         name={fieldName}
         aria-label={fieldName}
         options={options}

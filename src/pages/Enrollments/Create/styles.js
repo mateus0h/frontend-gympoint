@@ -69,7 +69,7 @@ export const Content = styled.div`
       color: #454444;
 
       &::placeholder {
-        color: #dddddd;
+        color: #999999;
       }
     }
 
@@ -102,10 +102,19 @@ export const ActionsHeader = styled.div`
     color: #fff;
     border: 0;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 
     transition: backdround 0.2s;
-    width: 142px;
+    width: 100px;
+
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+      margin: 0 10px 0 10px;
+    }
 
     &:hover {
       background: ${darken(0.02, '#ee4c63')};

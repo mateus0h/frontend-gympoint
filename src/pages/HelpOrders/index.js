@@ -4,16 +4,19 @@ import api from '~/services/api';
 import { Container, Content, Actions, PlansTable } from './styles';
 
 import Modal from './ResponseModal';
+import Loading from '~/components/Loading';
 
 export default function HelpOrders() {
   const [orders, setOrders] = useState([]);
   const [infosModal, setInfosModal] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadOrders() {
       const response = await api.get('students/help-orders');
 
       setOrders(response.data);
+      setLoading(false);
     }
 
     loadOrders();
@@ -37,7 +40,9 @@ export default function HelpOrders() {
     });
   }
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Actions>
         <p>Pedidos de auxílio</p>

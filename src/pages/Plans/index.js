@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { MdAdd } from 'react-icons/md';
 
 import { deletePlan } from '~/store/modules/plan/actions';
 
@@ -9,9 +10,11 @@ import api from '~/services/api';
 import { Container, Content, Actions, PlansTable } from './styles';
 
 import { formatPrice } from '~/util/format';
+import Loading from '~/components/Loading';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -35,26 +38,32 @@ export default function Plans() {
       });
 
       setPlans(data);
+      setLoading(false);
     }
 
     loadPlans();
   }, []);
 
-  function handleDelete(idPlan) {
-    dispatch(deletePlan(idPlan));
-
-    const newList = plans.filter(item => item.id !== idPlan);
-
-    setPlans(newList);
+  function handleDelete(idPlan, title) {
+    if (window.confirm(`Deseja apagar o plano ${title} ?`)) {
+      dispatch(deletePlan(idPlan));
+      const newList = plans.filter(item => item.id !== idPlan);
+      setPlans(newList);
+    }
   }
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Actions>
         <p>Gerenciado planos</p>
         <div>
           <Link to="plans/create">
-            <button type="button">Cadastrar</button>
+            <button type="button">
+              <MdAdd size={20} color="#FFFF" />
+              <div>CADASTRAR</div>
+            </button>
           </Link>
         </div>
       </Actions>
@@ -91,7 +100,7 @@ export default function Plans() {
                   <button
                     type="button"
                     id="delete"
-                    onClick={() => handleDelete(plan.id)}
+                    onClick={() => handleDelete(plan.id, plan.title)}
                   >
                     Apagar
                   </button>

@@ -25,13 +25,32 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #444444;
+      color: #999999;
       margin: 10px;
     }
   }
+
+  p {
+    font-size: 14px;
+    color: #666666;
+    text-align: left;
+  }
+
+  button#exit {
+    color: #de3b3b;
+    background: none;
+    border: none;
+    font-size: 12px;
+  }
+
   aside {
     display: flex;
     align-items: center;
+  }
+
+  .active {
+    color: #444444;
+    font-weight: bold;
   }
 `;
 
@@ -47,7 +66,7 @@ export const Profile = styled.div`
 
     strong {
       display: block;
-      color: #333;
+      color: #000;
     }
 
     a {

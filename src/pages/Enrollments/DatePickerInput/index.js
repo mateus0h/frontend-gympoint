@@ -22,6 +22,7 @@ export default function DatePicker({ name, onChangeDate }) {
   return (
     <>
       <ReactDatePicker
+        placeholderText="Ecolha a Data"
         dateFormat="dd/MM/yyyy"
         autoComplete="off"
         name={fieldName}

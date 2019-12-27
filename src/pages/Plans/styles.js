@@ -21,7 +21,8 @@ export const PlansTable = styled.table`
   width: 100%;
 
   thead th {
-    color: #999;
+    color: #444444;
+    font-weight: bold;
     padding: 12px;
     text-align: left;
   }
@@ -97,10 +98,19 @@ export const Actions = styled.div`
     color: #fff;
     border: 0;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 
     transition: backdround 0.2s;
     width: 142px;
+
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+      margin: 0 10px 0 10px;
+    }
 
     &:hover {
       background: ${darken(0.02, '#ee4c63')};

@@ -5,6 +5,8 @@ import { Form, Input } from '@rocketseat/unform';
 
 import * as Yup from 'yup';
 
+import { MdCheck, MdChevronLeft } from 'react-icons/md';
+
 import { createStudent } from '~/store/modules/student/actions';
 
 import {
@@ -39,11 +41,13 @@ export default function Create() {
           <div>
             <Link to="/students">
               <button id="back" type="button">
-                Voltar
+                <MdChevronLeft size={25} color="#FFFF" />
+                <div>VOLTAR</div>
               </button>
             </Link>
             <button id="save" type="submit">
-              Salvar
+              <MdCheck size={18} color="#FFFF" />
+              <div>SALVAR</div>
             </button>
           </div>
         </ActionsHeader>

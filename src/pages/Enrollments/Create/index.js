@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
+import { MdCheck, MdChevronLeft } from 'react-icons/md';
 
 import * as Yup from 'yup';
 
@@ -90,11 +91,13 @@ export default function Create() {
           <div>
             <Link to="/enrollments">
               <button id="back" type="button">
-                Voltar
+                <MdChevronLeft size={25} color="#FFFF" />
+                <div>VOLTAR</div>
               </button>
             </Link>
             <button id="save" type="submit">
-              Salvar
+              <MdCheck size={20} color="#FFFF" />
+              <div>SALVAR</div>
             </button>
           </div>
         </ActionsHeader>

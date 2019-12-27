@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
+import { MdCheck, MdChevronLeft } from 'react-icons/md';
 import { createPlan } from '~/store/modules/plan/actions';
 import { formatPrice } from '~/util/format';
 
@@ -49,11 +50,13 @@ export default function Create() {
           <div>
             <Link to="/plans">
               <button id="back" type="button">
-                Voltar
+                <MdChevronLeft size={25} color="#FFFF" />
+                <div>VOLTAR</div>
               </button>
             </Link>
             <button id="save" type="submit">
-              Salvar
+              <MdCheck size={20} color="#FFFF" />
+              <div>SALVAR</div>
             </button>
           </div>
         </ActionsHeader>
