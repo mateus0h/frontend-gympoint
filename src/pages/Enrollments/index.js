@@ -52,7 +52,6 @@ export default function Enrollments() {
       setEnrollments(data);
       setLoading(false);
     }
-
     loadEnrollments();
   }, []);
 
