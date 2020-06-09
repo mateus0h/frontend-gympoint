@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://www.apimateus.life/',
+  baseURL: 'https://www.apimateus.life/',
 });
 export default api;
